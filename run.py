@@ -22,10 +22,21 @@ posts = [
 def home():
     return render_template('home.html', posts=posts)
 
+@app.route("/modes")
+def modes():
+    return render_template('modes.html', title='Módy')
 
-@app.route("/about")
-def about():
-    return render_template('about.html', title='About')
+@app.route("/settings")
+def settings():
+    return render_template('settings.html', title='Nastavenia')
+    
+@app.route("/schedule")
+def schedule():
+    return render_template('schedule.html', title='Plánovač')
+    
+@app.route("/priame_ovladanie")
+def priame_ovladanie():
+    return render_template('priame_ovladanie.html', title='Real-Time ovládanie')
 
 
 if __name__ == '__main__':
