@@ -1,0 +1,87 @@
+{% extends "layout.html" %} {% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-2">
+            <div class="row justify-content-end h-100">
+                <div class="col-lx align-content-center mt-5">
+                    <input id="vertical_sl" data-slider-id='vertical_sl' type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="50" /> >
+                    <input type="number" min="0" max="100" id="vertical_sl_value" style="width: 2.5vw; min-width: 3vw;">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-10">
+            <div id="frame">
+                <img id="okno" src="{{ url_for('static', filename='img/oknoP.png') }}" alt="">
+                <div id="sheets">
+                    <div class="sheet">
+                    </div>
+                    <div class="sheet">
+                    </div>
+                    <div class="sheet">
+                    </div>
+                    <div class="sheet">
+                    </div>
+                    <div class="sheet">
+                    </div>
+                    <div class="sheet">
+                    </div>
+                    <div class="sheet">
+                    </div>
+                    <div class="sheet">
+                    </div>
+                    <div class="sheet">
+                    </div>
+                    <div class="sheet">
+                    </div>
+                    <div class="sheet">
+                    </div>
+                    <div class="sheet">
+                    </div>
+                    <div class="sheet">
+                    </div>
+                    <div class="sheet">
+                    </div>
+                    <div class="sheet">
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-sm-3">
+        </div>
+
+        <div class="col-lx-6 w-50">
+            <input id="horizontal_sl" data-slider-id='horizontal_sl' type="text" data-slider-min="-90" data-slider-max="90" data-slider-step="10" data-slider-value="90" />
+        </div>
+
+        <div class="col-sm-3">
+            <input type="number" min="0" max="100" id="horizontal_sl_value" style="height:100%;">
+        </div>
+
+
+    </div>
+
+
+    <div class="row mt-4">
+        <div class="col-5"></div>
+        <div class="col-2">
+            <button class="btn btn-light-green" onclick="sendData();">Potvrdiť</button>
+        </div>
+
+        <div class="col-5"></div>
+
+    </div>
+
+</div>
+
+
+
+
+
+<br> {% endblock content %}

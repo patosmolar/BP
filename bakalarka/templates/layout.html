@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="icon" href="{{ url_for('static', filename='img/mdb-favicon.ico') }}" type="image/x-icon">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.2/css/bootstrap-slider.min.css">
+    <!-- Material Design Bootstrap -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mdb.min.css') }}">
+    <!-- Your custom styles (optional) -->
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}"> {% if title %}
+    <title>iŽalúzie - {{ title }}</title>
+    {% else %}
+    <title>iŽalúzie</title>
+    {% endif %}
+</head>
+
+<body>
+    <header class="site-header">
+        <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+            <div class="container">
+                <a class="navbar-brand mr-4" href="/">iŽalúzie</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+                <div class="collapse navbar-collapse" id="navbarToggle">
+                    <div class="navbar-nav mr-auto">
+                        <a class="nav-item nav-link" href="{{ url_for('home') }}">Home</a>
+                        <a class="nav-item nav-link" href="{{ url_for('about') }}">About</a>
+                    </div>
+                    <!-- Navbar Right Side -->
+                    <div class="navbar-nav">
+                        {% if current_user.is_authenticated %}
+                        <a class="nav-item nav-link" href="{{ url_for('account') }}">Account</a>
+                        <a class="nav-item nav-link" href="{{ url_for('logout') }}">Logout</a> {% else %}
+                        <a class="nav-item nav-link" href="{{ url_for('login') }}">Login</a> {% endif %}
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+
+    <div class="row">
+        <div class="col-xl-9">
+            {% block content %}{% endblock %}
+        </div>
+
+        <div class="col-xl-3">
+            <div class="content-section justify-content-center bg-light">
+                <h2 class="text-center">Aktuálne počasie</h2>
+                <h3 id="header">Mesto:{{weather.name}} </h3>
+                <div class="time">
+                    <div id="time">Čas: {{time}}</div>
+                    <div id="date">Dátum: {{date}}</div>
+                </div>
+                <div class="weather-forecast">
+                    <img id="icon" src="{{wicon}}" class="weather-icon rounded mx-auto d-block" height="150px" width="150px" />
+                    <div id="temp" class="text-center">{{weather.main.temp}}°C </div>
+
+                </div>
+                <div class="time">
+
+                    <div id="humidity"></div>
+                    <div id="wind"></div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/mdb.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.2/bootstrap-slider.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.2.6/gsap.min.js"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/zaluzie.js') }}"></script>
+
+
+    </script>
+    <!-- Your custom scripts (optional) -->
+    <script>
+    </script>
+
+
+
+
+
+
+</body>
+
+</html>
