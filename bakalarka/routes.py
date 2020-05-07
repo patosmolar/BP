@@ -6,21 +6,6 @@ from bakalarka.models import User
 from flask_login import login_user, current_user, logout_user, login_required
 
 
-posts = [
-    {
-        'author': 'Corey Schafer',
-        'title': 'Blog Post 1',
-        'content': 'First post content',
-        'date_posted': 'April 20, 2018'
-    },
-    {
-        'author': 'Jane Doe',
-        'title': 'Blog Post 2',
-        'content': 'Second post content',
-        'date_posted': 'April 21, 2018'
-    }
-]
-
 @app.context_processor
 def setWeather():
     API_KEY = '1dc3d9ddda7b79c3e8e80ce27c139ae5'
@@ -43,7 +28,7 @@ def setWeather():
 @app.route("/home")
 @login_required
 def home():
-    return render_template('home.html', posts=posts)
+    return render_template('home.html')
   
 
 

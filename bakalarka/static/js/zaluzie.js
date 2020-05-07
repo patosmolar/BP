@@ -11,24 +11,53 @@ $("#vertical_sl").slider({
         return 'Výška: ' + value;
     }
 });
+$("#vertical_sl").on("slideStart", function(slideEvt) {
+    $("#vertical_sl_value").val(slideEvt.value);
+});
 $("#vertical_sl").on("slide", function(slideEvt) {
     $("#vertical_sl_value").val(slideEvt.value);
+});
+
+
+
+$("#horizontal_sl").on("slideStart", function(slideEvt) {
+    $("#horizontal_sl_value").val(slideEvt.value);
 });
 $("#horizontal_sl").on("slide", function(slideEvt) {
     $("#horizontal_sl_value").val(slideEvt.value);
 });
-document.getElementById("vertical_sl_value").value = 50;
+
+document.getElementById("vertical_sl_value").value = 100;
 document.getElementById("horizontal_sl_value").value = 90;
 
+function integer(number) {
+    return Math[number < 0 ? 'ceil' : 'floor'](number);
+}
+
 function sendData() {
+    pullUp();
     rotate();
 
 }
 
 function rotate() {
-    var val = document.getElementById("horizontal_sl_value").value - 90;
+    var val = document.getElementById("horizontal_sl_value").value;
+    if (val == 0) {
+        val = 5;
+    }
+    val = val - 90;
     var k = "rotateX(" + val + "deg)";
-    console.log(k);
     TweenMax.to(".sheet", 2, { transform: k, ease: Power4 });
+}
+
+function pullUp() {
+    var val = document.getElementById("vertical_sl_value").value;
+    val = 100 - val;
+    val = "-" + val + "%";
+
+    var obj = document.getElementById("sheets");
+    TweenMax.to(obj, 1, { y: val });
+
+
 
 }
