@@ -10,18 +10,20 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <link rel="icon" href="{{ url_for('static', filename='img/mdb-favicon.ico') }}" type="image/x-icon">
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
     <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.2/css/bootstrap-slider.min.css">
+
     <!-- Material Design Bootstrap -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/mdb.min.css') }}">
     <!-- Your custom styles (optional) -->
-
+    {% block head %}{% endblock %}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}"> {% if title %}
+
     <title>iŽalúzie - {{ title }}</title>
     {% else %}
     <title>iŽalúzie</title>
@@ -39,7 +41,7 @@
                 <div class="collapse navbar-collapse" id="navbarToggle">
                     <div class="navbar-nav mr-auto">
                         <a class="nav-item nav-link" href="{{ url_for('home') }}">Home</a>
-                        <a class="nav-item nav-link" href="{{ url_for('about') }}">About</a>
+                        <a class="nav-item nav-link" href="{{ url_for('scheduler') }}">Scheduler</a>
                     </div>
                     <!-- Navbar Right Side -->
                     <div class="navbar-nav">
@@ -56,6 +58,7 @@
 
     <div class="row pt-2">
         <div class="col-xl-9">
+
             {% block content %}{% endblock %}
         </div>
 
@@ -89,21 +92,17 @@
 
 
 
-    <!-- Optional JavaScript -->
+
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.js " integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin=" anonymous "></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js " integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q " crossorigin="anonymous "></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js " integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl " crossorigin="anonymous "></script>
     <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js " integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9 " crossorigin="anonymous "></script>
     <script type="text/javascript " src="{{ url_for( 'static', filename='js/mdb.min.js' ) }} "></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.2/bootstrap-slider.min.js "></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.2.6/gsap.min.js "></script>
-    <script type="text/javascript " src="{{ url_for( 'static', filename='js/zaluzie.js' ) }} "></script>
+
+    {% block scripts %}{% endblock %}
 
 
-    </script>
-    <!-- Your custom scripts (optional) -->
-    <script>
     </script>
 
 

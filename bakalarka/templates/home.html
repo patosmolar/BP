@@ -1,4 +1,5 @@
-{% extends "layout.html" %} {% block content %}
+{% extends "layout.html" %} {% block head %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.2/css/bootstrap-slider.min.css"> {% endblock head %} {% block content %}
 <div class="container-fluid">
     <div class="row">
         <div class="col-2">
@@ -85,4 +86,7 @@
 
 
 
-<br> {% endblock content %}
+<br> {% endblock content %} {% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.2/bootstrap-slider.min.js "></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.2.6/gsap.min.js "></script>
+<script type="text/javascript " src="{{ url_for( 'static', filename='js/zaluzie.js' ) }}"></script>{% endblock scripts %}
