@@ -1,10 +1,18 @@
 import requests,json,sys,time
-from flask import render_template, url_for, flash, redirect, request,jsonify
+from flask import render_template, url_for, flash, redirect, request,jsonify,Response
 from bakalarka import app, db, bcrypt
 from bakalarka.forms import  LoginForm
 from bakalarka.models import User
 from flask_login import login_user, current_user, logout_user, login_required
-import json
+
+import httplib2,uuid,flask
+from apiclient import discovery
+from oauth2client import client
+from googleapiclient import sample_tools
+from rfc3339 import rfc3339
+from dateutil import parser
+
+
 
 
 @app.context_processor
@@ -21,10 +29,6 @@ def setWeather():
 
 
 
-
-
-
-
 @app.route("/")
 @app.route("/home")
 @login_required
@@ -32,12 +36,6 @@ def home():
     return render_template('home.html')
   
 
-
-
-@app.route("/scheduler")
-@login_required
-def scheduler():
-    return render_template('scheduler.html', title='Scheduler')
   
 
 @app.route("/login",  methods=['GET', 'POST'])
@@ -65,20 +63,114 @@ def logout():
 @app.route("/account")
 @login_required
 def account():
-    return render_template('account.html', title='Account')
+   return flask.redirect(flask.url_for('setCalendar'))
 
 
-@app.route('/data')
-def return_data():
-    start_date = request.args.get('start', '')
-    end_date = request.args.get('end', '')
-    # You'd normally use the variables above to limit the data returned
-    # you don't want to return ALL events like in this code
-    # but since no db or any real storage is implemented I'm just
-    # returning data from a text file that contains json elements
+@app.route("/scheduler")
+@login_required
+def scheduler():
+    cid = current_user.calendarID
+    writeEvent(1,1,1,1)
+    print(cid)
+    if(cid == '-1'):
+        return flask.redirect(flask.url_for('setCalendar'))
+    else:
+        cname = current_user.calendarID   
+        src = "https://calendar.google.com/calendar/embed?src="+cname   
+        return flask.render_template('scheduler.html',src=src)
 
-    with open("bakalarka/events.json", "r") as input_data:
-        # you should use something else here than just plaintext
-        # check out jsonfiy method or the built in json module
-        # http://flask.pocoo.org/docs/0.10/api/#module-flask.json
-        return input_data.read()
+
+@app.route("/setCalendar")
+def setCalendar():
+    if 'credentials' not in flask.session:
+      return flask.redirect(flask.url_for('oauth2callback'))
+    credentials = client.OAuth2Credentials.from_json(flask.session['credentials'])
+    if credentials.access_token_expired:
+        return flask.redirect(flask.url_for('oauth2callback'))
+    credentials = client.OAuth2Credentials.from_json(flask.session['credentials'])
+    http_auth = credentials.authorize(httplib2.Http())
+
+    calendars = []
+    service = discovery.build('calendar', 'v3', http_auth)
+    page_token = None
+    while True:
+      calendar_list = service.calendarList().list(pageToken=page_token).execute()
+      for calendar_list_entry in calendar_list['items']:
+        calendars.append({"name": calendar_list_entry['summary'], "id": calendar_list_entry['id']})
+      page_token = calendar_list.get('nextPageToken')
+      if not page_token:
+        break
+    flash('Nastavte si kalendár')
+    return  render_template(('account.html'),calendars=calendars)
+    
+    
+@app.route('/updateCID',methods= ['POST'])
+def updateCID():
+    current_user.calendarID = request.form.get('cid')
+    #current_user.calendarID = -1
+    db.session.commit()
+    return '', 204
+
+    
+
+
+#Begin oauth callback route
+@app.route('/oauth2callback')
+def oauth2callback():
+  flow = client.flow_from_clientsecrets(
+      'client_secrets.json',['https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/userinfo.email'],
+      redirect_uri=flask.url_for('oauth2callback', _external=True))
+  if 'code' not in flask.request.args:
+    auth_uri = flow.step1_get_authorize_url()
+    return flask.redirect(auth_uri)
+  else:
+    auth_code = flask.request.args.get('code')
+    credentials = flow.step2_exchange(auth_code)
+    flask.session['credentials'] = credentials.to_json()
+    return flask.redirect(flask.url_for('setCalendar'))
+
+
+@app.route('/createEntry', methods= ['POST'])
+def createEntry():
+    vyska = request.form.get('vyska')
+    uhol = request.form.get('uhol')
+    date = request.form.get('date')
+    time = request.form.get('time')
+
+    try:
+        credentials = client.OAuth2Credentials.from_json(flask.session['credentials'])
+    except credError:
+        print ("did not assign credentials")
+
+
+
+    http_auth = credentials.authorize(httplib2.Http())
+    service = discovery.build('calendar', 'v3', http_auth)
+    eventName = "@scheduled"
+    event = {
+        'summary': eventName,
+        'start': {
+        'dateTime': date+"T"+time+":00",
+        'timeZone': 'Europe/Prague',
+        },
+        'end': {
+        'dateTime': date+"T"+time+":00",
+        'timeZone': 'Europe/Prague',
+        },
+        'description': "Výška: "+vyska + " - Uhol: "+uhol,
+        'iCalUID': str(uuid.uuid4())
+    }
+    imported_event = service.events().insert(calendarId=current_user.calendarID, body=event).execute()
+
+    
+
+
+    return '', 204
+
+def writeEvent(vyska,uhol,mdate,mtime):
+    with open('bakalarka/static/events.json') as json_file:
+        data = json.load(json_file)
+        print(data)
+
+       
+

@@ -1,4 +1,15 @@
-{% extends "layout.html" %}
-{% block content %}
-    <h1>{{ current_user.username }}</h1>
+{% extends "layout.html" %} {% block content %}
+<h1>{{ current_user.username }}</h1>
+
+
+<form action="{{ url_for('updateCID') }}" method="POST">
+    <label for="cid">Vyberte si kalendár:</label>
+    <select id="cid" name="cid">
+    {% for zaznam in calendars %}
+        <option value="{{ zaznam.id }}">{{ zaznam.name }}</option>
+        {% endfor %}
+    <input type="submit" value="Submit">
+   
+</form>
+
 {% endblock content %}
