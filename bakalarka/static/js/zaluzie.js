@@ -17,6 +17,10 @@ $("#vertical_sl").on("slideStart", function(slideEvt) {
 $("#vertical_sl").on("slide", function(slideEvt) {
     $("#vertical_sl_value").val(slideEvt.value);
 });
+$("#vertical_sl").on("slideStop", function(slideEvt) {
+    console.log("aaa");
+    pullUp();
+});
 
 
 
@@ -25,6 +29,9 @@ $("#horizontal_sl").on("slideStart", function(slideEvt) {
 });
 $("#horizontal_sl").on("slide", function(slideEvt) {
     $("#horizontal_sl_value").val(slideEvt.value);
+});
+$("#horizontal_sl").on("slideStop", function(slideEvt) {
+    rotate();
 });
 
 document.getElementById("vertical_sl_value").value = 100;
@@ -35,8 +42,8 @@ function integer(number) {
 }
 
 function sendData() {
-    pullUp();
-    rotate();
+    vyska = document.getElementById("vertical_sl_value").value;
+    uhol = document.getElementById("horizontal_sl_value").value;
 
 }
 

@@ -1,12 +1,13 @@
 {% extends "layout.html" %} {% block head %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.2/css/bootstrap-slider.min.css"> {% endblock head %} {% block content %}
+<form action="{{ url_for('work') }}" id="a" name="a" method="POST"></form>
 <div class="container-fluid">
     <div class="row">
         <div class="col-2">
             <div class="row justify-content-end h-100">
                 <div class="col-lx align-content-center mt-5">
                     <input id="vertical_sl" data-slider-id='vertical_sl' type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="100" /> >
-                    <input type="number" min="0" max="100" id="vertical_sl_value" style="width: 2.5vw; min-width: 3vw;">
+                    <input type="number" min="0" max="100" id="vertical_sl_value" style="width: 2.5vw; min-width: 3vw;" form="a" name="vyska">
                 </div>
             </div>
         </div>
@@ -63,7 +64,7 @@
         </div>
 
         <div class="col-sm-3">
-            <input type="number" min="0" max="100" id="horizontal_sl_value" style="height:100%;">
+            <input type="number" min="0" max="100" id="horizontal_sl_value" style="height:100%;" form="a" name="uhol">
         </div>
 
 
@@ -73,7 +74,7 @@
     <div class="row mt-4">
         <div class="col-5"></div>
         <div class="col-2">
-            <button class="btn btn-light-green" onclick="sendData();">Potvrdiť</button>
+            <input type="submit" class="btn btn-light-blue" form="a" value="Nastaviť Žalúzie"></button>
         </div>
 
         <div class="col-5"></div>
@@ -89,4 +90,16 @@
 <br> {% endblock content %} {% block scripts %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.2/bootstrap-slider.min.js "></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.2.6/gsap.min.js "></script>
-<script type="text/javascript " src="{{ url_for( 'static', filename='js/zaluzie.js' ) }}"></script>{% endblock scripts %}
+<script type="text/javascript " src="{{ url_for( 'static', filename='js/zaluzie.js' ) }}"></script>
+<script type=text/javascript>
+    $(function() {
+        $('a#test').bind('click', function() {
+            $.getJSON('/background_process_test',
+                function(data) {
+                    //do nothing
+                });
+            return false;
+        });
+    });
+</script>
+{% endblock scripts %}
