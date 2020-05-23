@@ -91,15 +91,4 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.2/bootstrap-slider.min.js "></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.2.6/gsap.min.js "></script>
 <script type="text/javascript " src="{{ url_for( 'static', filename='js/zaluzie.js' ) }}"></script>
-<script type=text/javascript>
-    $(function() {
-        $('a#test').bind('click', function() {
-            $.getJSON('/background_process_test',
-                function(data) {
-                    //do nothing
-                });
-            return false;
-        });
-    });
-</script>
 {% endblock scripts %}
